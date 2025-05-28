@@ -31,7 +31,7 @@ app.post('/api/chat', async (req, res) => {
     console.log("Received message:", message);
 
     // Initialize Google Generative AI with API key
-    const googleApiKey = process.env.GOOGLE_API_KEY || 'AIzaSyBqHznpSBhu6lOFVANDXxRggklHtwiOwvI';
+    const googleApiKey = process.env.GOOGLE_API_KEY;
     console.log("Using Google API Key:", googleApiKey.substring(0, 5) + "..." + googleApiKey.substring(googleApiKey.length - 4));
     
     try {

@@ -46,18 +46,65 @@ function App() {
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = true;
       recognitionRef.current.interimResults = true;
+      recognitionRef.current.lang = 'en-US';
+      
+      recognitionRef.current.onstart = () => {
+        console.log('🎤 Voice recognition started');
+      };
       
       recognitionRef.current.onresult = (event) => {
         const current = event.resultIndex;
         const transcriptText = event.results[current][0].transcript;
+        console.log('🗣️ Heard:', transcriptText);
         setTranscript(transcriptText);
+        
+        // Auto-process final results
+        if (event.results[current].isFinal) {
+          console.log('✅ Final transcript:', transcriptText);
+          if (transcriptText.trim()) {
+            processCommand(transcriptText);
+            setTranscript('');
+            setIsListening(false);
+          }
+        }
+      };
+      
+      recognitionRef.current.onerror = (event) => {
+        console.error('❌ Speech recognition error:', event.error);
+        if (event.error === 'not-allowed') {
+          alert('Microphone access denied. Please allow microphone access and refresh the page.');
+        } else if (event.error === 'no-speech') {
+          console.log('No speech detected, continuing to listen...');
+        }
       };
       
       recognitionRef.current.onend = () => {
+        console.log('🛑 Voice recognition ended');
         if (isListening) {
-          recognitionRef.current.start();
+          console.log('🔄 Restarting voice recognition...');
+          try {
+            recognitionRef.current.start();
+          } catch (error) {
+            console.error('Failed to restart recognition:', error);
+            setIsListening(false);
+          }
         }
       };
+      
+      recognitionRef.current.onnomatch = () => {
+        console.log('🤷 No speech match found');
+      };
+      
+      recognitionRef.current.onspeechstart = () => {
+        console.log('🎙️ Speech detected');
+      };
+      
+      recognitionRef.current.onspeechend = () => {
+        console.log('🔇 Speech ended');
+      };
+    } else {
+      console.error('❌ Speech Recognition not supported in this browser');
+      alert('Speech Recognition is not supported in your browser. Please use Chrome or Edge.');
     }
     
     return () => {
@@ -130,17 +177,35 @@ function App() {
 
   // Toggle voice recognition
   const toggleMicrophone = () => {
+    if (!recognitionRef.current) {
+      alert('Speech recognition is not available. Please use Chrome or Edge browser.');
+      return;
+    }
+
+    if (!audioEnabled) {
+      alert('Please enable audio first by clicking the "Enable Audio" button.');
+      return;
+    }
+
     if (isListening) {
+      console.log('🛑 Stopping microphone...');
       recognitionRef.current.stop();
       if (transcript.trim()) {
         processCommand(transcript);
         setTranscript('');
       }
+      setIsListening(false);
     } else {
+      console.log('🎤 Starting microphone...');
       setTranscript('');
-      recognitionRef.current.start();
+      try {
+        recognitionRef.current.start();
+        setIsListening(true);
+      } catch (error) {
+        console.error('Failed to start recognition:', error);
+        alert('Failed to start voice recognition. Please check microphone permissions.');
+      }
     }
-    setIsListening(!isListening);
   };
 
   // Process commands (voice or text)
