@@ -163,8 +163,6 @@ This project is licensed under the "Don't Sue Me" License. Use it, modify it, ma
 
 - **Tony Stark** - For the inspiration (and the ego)
 - **Google** - For the AI that makes this actually work
-- **The React Team** - For making frontend development bearable
-- **Coffee** - For making this project possible
 
 ## ⚠️ Disclaimer
 
