@@ -38,7 +38,7 @@ Before you start feeling like Tony Stark, make sure you have:
 
 ### Step 1: Clone This Masterpiece
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/aabishkar02/jarvis.git
 cd jarvis
 ```
 
