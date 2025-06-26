@@ -145,7 +145,7 @@ npm run build      # Build for production
 npm test           # Run tests (if we had any)
 ```
 
-## 🤝 Contributing (Join the Team)
+## 🤝 Contributing ()
 
 Found a bug? Want to add a feature? Think you can make JARVIS even more sarcastic? 
 
@@ -157,7 +157,7 @@ Found a bug? Want to add a feature? Think you can make JARVIS even more sarcasti
 
 ## 📝 License
 
-This project is licensed under the "Don't Sue Me" License. Use it, modify it, make it better, just don't blame us if it doesn't actually make you Iron Man.
+This project is licensed under the "Don't Sue Me" License. Use it, modify it, make it better, just don't blame me ;) if it doesn't actually make you Iron Man.
 
 ## 🙏 Acknowledgments
 
